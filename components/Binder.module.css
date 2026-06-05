@@ -1,0 +1,181 @@
+/* Open-binder spread: two facing pages with a 3D page-turn. */
+.book {
+  width: 100%;
+  margin-inline: auto;
+  perspective: 2600px;
+}
+
+.spread {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: 14px;
+  background: #08080c;
+  box-shadow:
+    0 36px 90px -36px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.side {
+  position: relative;
+  width: 50%;
+  flex: 0 0 50%;
+  min-width: 0;
+  overflow: hidden;
+}
+.left {
+  border-radius: 14px 0 0 14px;
+}
+.right {
+  border-radius: 0 14px 14px 0;
+}
+/* gutter shadow toward the spine */
+.left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 26px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+  z-index: 5;
+}
+.right::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 26px;
+  background: linear-gradient(270deg, transparent, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* center spine line */
+.spread::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-1px);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.7), transparent);
+  z-index: 6;
+  pointer-events: none;
+}
+
+.pagePanel {
+  height: 100%;
+  padding: 4.5%;
+  background: linear-gradient(180deg, #15151c, #0c0c12);
+}
+
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background:
+    radial-gradient(120% 70% at 50% 0, rgba(201, 162, 39, 0.06), transparent 70%),
+    #0a0a0f;
+}
+.coverMark {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* turning leaf */
+.leaf {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform-style: preserve-3d;
+  z-index: 40;
+  will-change: transform;
+}
+.leafNext {
+  right: 0;
+  transform-origin: left center;
+  animation: turnNext 720ms cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+.leafPrev {
+  left: 0;
+  transform-origin: right center;
+  animation: turnPrev 720ms cubic-bezier(0.42, 0, 0.2, 1) forwards;
+}
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.faceBack {
+  transform: rotateY(180deg);
+}
+/* subtle static shading on the moving leaf for depth */
+.faceShade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0));
+}
+.faceBack .faceShade {
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0));
+}
+
+@keyframes turnNext {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(-180deg); }
+}
+@keyframes turnPrev {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(180deg); }
+}
+
+.pocket {
+  border-radius: 0.55rem;
+  border: 1px dashed rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Single-page mode (mobile): one page, simple page-turn enter animation. */
+.singleViewport {
+  perspective: 1800px;
+}
+.singleFrame {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9);
+}
+.singleSheet {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.singleNext {
+  transform-origin: left center;
+  animation: singleNext 440ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.singlePrev {
+  transform-origin: right center;
+  animation: singlePrev 440ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes singleNext {
+  from { transform: rotateY(24deg); opacity: 0; }
+  to { transform: rotateY(0); opacity: 1; }
+}
+@keyframes singlePrev {
+  from { transform: rotateY(-24deg); opacity: 0; }
+  to { transform: rotateY(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .singleNext, .singlePrev { animation: none; }
+}
