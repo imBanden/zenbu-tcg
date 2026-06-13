@@ -7,6 +7,9 @@ import { abyssEyeCards } from "@/lib/cards/abyss-eye";
 import { ninjaSpinnerCards } from "@/lib/cards/ninja-spinner";
 import { munikisZeroCards } from "@/lib/cards/munikis-zero";
 import { megaDreamCards } from "@/lib/cards/mega-dream";
+import { infernoXCards } from "@/lib/cards/inferno-x";
+import { megaBraveCards } from "@/lib/cards/mega-brave";
+import { megaSymphoniaCards } from "@/lib/cards/mega-symphonia";
 import { enrichWithTcgdex } from "@/lib/cards/tcgdex";
 import { enrichWithYuyutei } from "@/lib/cards/yuyutei";
 import Header from "@/components/Header";
@@ -19,6 +22,9 @@ const BINDERS: Record<string, Card[]> = {
   "ninja-spinner": ninjaSpinnerCards,
   "munikis-zero": munikisZeroCards,
   "mega-dream": megaDreamCards,
+  "inferno-x": infernoXCards,
+  "mega-brave": megaBraveCards,
+  "mega-symphonia": megaSymphoniaCards,
 };
 
 // Only pre-rendered slugs exist under static export.
@@ -68,7 +74,7 @@ export default async function SetPage({
     : await enrichWithTcgdex(baseCards, set.tcgdex);
 
   // Official Japanese key-art / logo banner for this expansion.
-  const art = `https://www.pokemon-card.com/ex/${set.code.toLowerCase()}/assets/images/ogp.png`;
+  const art = `https://www.pokemon-card.com/ex/${set.artCode ?? set.code.toLowerCase()}/assets/images/ogp.png`;
 
   return (
     <>

@@ -1,0 +1,182 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(94vh, 940px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: clamp(2rem, 5vh, 4rem);
+}
+
+/* ---- the wall of grails (two opposed marquees) ---- */
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-block: 1.1rem; /* room for the hover scale + glow */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+/* freeze the row on hover so a card can be aimed at (future: eBay affiliate link) */
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.track {
+  display: flex;
+  gap: 0.85rem;
+  width: max-content;
+  will-change: transform;
+}
+.left {
+  animation: marqueeL 80s linear infinite;
+}
+.right {
+  animation: marqueeR 98s linear infinite;
+}
+
+@keyframes marqueeL {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marqueeR {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+.card {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(96px, 11.5vw, 152px);
+  aspect-ratio: 5 / 7;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  cursor: pointer;
+  outline: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.85);
+  /* dimmed as atmosphere; the hovered grail lights up. */
+  filter: brightness(0.72) saturate(0.92);
+  transition:
+    filter 260ms ease,
+    transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 260ms ease,
+    outline-color 260ms ease;
+}
+.card:hover {
+  filter: brightness(1.06) saturate(1.06);
+  transform: scale(1.06);
+  outline-color: rgba(201, 162, 39, 0.55);
+  box-shadow:
+    0 0 22px -2px rgba(201, 162, 39, 0.5),
+    0 18px 40px -16px rgba(0, 0, 0, 0.9);
+}
+.card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* faint diagonal holo sheen */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(125deg, transparent 40%, rgba(255, 255, 255, 0.14) 50%, transparent 60%);
+  mix-blend-mode: overlay;
+}
+
+/* ---- center statement ---- */
+.center {
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  width: 100%;
+  max-width: 70rem;
+  padding-inline: 1.25rem;
+  text-align: center;
+}
+.center::before {
+  content: "";
+  position: absolute;
+  inset: -45% -12%;
+  z-index: -1;
+  background: radial-gradient(
+    52% 64% at 50% 50%,
+    rgba(10, 10, 15, 0.95),
+    rgba(10, 10, 15, 0.62) 52%,
+    transparent 80%
+  );
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  color: var(--gold);
+  margin-bottom: 1.4rem;
+}
+
+.headline {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+  font-size: clamp(2.7rem, 9.2vw, 7.2rem);
+  text-wrap: balance;
+}
+.headline span {
+  display: block;
+}
+.gold {
+  color: var(--gold);
+}
+
+/* staged entrance */
+.line {
+  opacity: 0;
+  transform: translateY(0.42em);
+  animation: rise 0.72s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.line:nth-child(1) { animation-delay: 0.06s; }
+.line:nth-child(2) { animation-delay: 0.18s; }
+.line:nth-child(3) { animation-delay: 0.3s; }
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sub {
+  margin: 1.7rem auto 0;
+  max-width: 36rem;
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.6;
+  color: var(--muted);
+  text-wrap: pretty;
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.42s forwards;
+}
+.sub b {
+  color: var(--foreground);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  margin-top: 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.54s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .left, .right { animation: none; }
+  .line, .sub, .actions { animation: none; opacity: 1; transform: none; }
+}

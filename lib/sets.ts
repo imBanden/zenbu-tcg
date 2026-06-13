@@ -34,6 +34,9 @@ export type SetCardData = {
   tcgdex?: { id: string; lang: string };
   /** Yuyu-tei set code (e.g. "m05") for hotlinked card images (preferred when set). */
   yuyutei?: { code: string };
+  /** Override for the official key-art banner code when it differs from `code`
+   *  (e.g. M1L/M1S share pokemon-card.com/ex/m1/). Defaults to code.toLowerCase(). */
+  artCode?: string;
 };
 
 /**
@@ -57,8 +60,7 @@ export const sets: SetCardData[] = [
       { rarity: "MUR", count: 1 },
     ],
     englishEquivalent: "Pitch Black",
-    tcgdex: { id: "M5", lang: "ja" },
-    yuyutei: { code: "m05" },
+    // Images baked from tcgcollector (clean/watermark-free) in lib/cards/abyss-eye.ts.
     pdf: "/pdfs/Abyss_Eye_binder_inserts.pdf",
     available: true,
   },
@@ -76,8 +78,6 @@ export const sets: SetCardData[] = [
       { rarity: "SAR", count: 6 },
       { rarity: "MUR", count: 1 },
     ],
-    tcgdex: { id: "M4", lang: "ja" },
-    yuyutei: { code: "m04" },
     pdf: "/pdfs/Ninja_Spinner_binder_inserts.pdf",
     available: true,
   },
@@ -95,7 +95,6 @@ export const sets: SetCardData[] = [
       { rarity: "SAR", count: 6 },
       { rarity: "MUR", count: 1 },
     ],
-    yuyutei: { code: "m03" },
     available: true,
   },
   {
@@ -113,6 +112,56 @@ export const sets: SetCardData[] = [
       { rarity: "MA", count: 10 },
       { rarity: "MUR", count: 1 },
     ],
+    available: true,
+  },
+  {
+    name: "Inferno X",
+    slug: "inferno-x",
+    code: "M2",
+    released: "2025-09-26",
+    totalCards: 116,
+    mainCards: 80,
+    secretCards: 36,
+    rarities: [
+      { rarity: "AR", count: 12 },
+      { rarity: "SR", count: 17 },
+      { rarity: "SAR", count: 6 },
+      { rarity: "MUR", count: 1 },
+    ],
+    available: true,
+  },
+  {
+    name: "Mega Brave",
+    slug: "mega-brave",
+    code: "M1L",
+    released: "2025-08-01",
+    totalCards: 92,
+    mainCards: 63,
+    secretCards: 29,
+    rarities: [
+      { rarity: "AR", count: 12 },
+      { rarity: "SR", count: 11 },
+      { rarity: "SAR", count: 5 },
+      { rarity: "MUR", count: 1 },
+    ],
+    artCode: "m1",
+    available: true,
+  },
+  {
+    name: "Mega Symphonia",
+    slug: "mega-symphonia",
+    code: "M1S",
+    released: "2025-08-01",
+    totalCards: 92,
+    mainCards: 63,
+    secretCards: 29,
+    rarities: [
+      { rarity: "AR", count: 12 },
+      { rarity: "SR", count: 11 },
+      { rarity: "SAR", count: 5 },
+      { rarity: "MUR", count: 1 },
+    ],
+    artCode: "m1",
     available: true,
   },
 ];

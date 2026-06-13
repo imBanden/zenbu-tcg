@@ -18,7 +18,7 @@ export default function SetCard({ set }: { set: SetCardData }) {
   } = set;
 
   // Official Japanese key-art / logo banner (consistent across expansions).
-  const art = `https://www.pokemon-card.com/ex/${code.toLowerCase()}/assets/images/ogp.png`;
+  const art = `https://www.pokemon-card.com/ex/${set.artCode ?? code.toLowerCase()}/assets/images/ogp.png`;
 
   return (
     <article

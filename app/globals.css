@@ -12,6 +12,16 @@
   --gold: #c9a227; /* the single accent */
   --gold-strong: #e3bd45; /* CTA hover / glow */
 
+  /* Site background layers — shared so the intro overlays match the page exactly
+     (base near-black + faint gold glow + film grain), not flat black. */
+  --bg-glow: radial-gradient(
+    60rem 40rem at 50% -8rem,
+    rgba(201, 162, 39, 0.1) 0%,
+    rgba(201, 162, 39, 0.04) 28%,
+    transparent 70%
+  );
+  --bg-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+
   /* Rarity chip colors (reused from the binder-insert PDFs) */
   --rarity-ar: #be185d;
   --rarity-sr: #7c3aed;
@@ -37,6 +47,7 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-zen: var(--font-zen-mincho);
 }
 
 html {
@@ -55,18 +66,17 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   min-height: 100%;
 
-  /* Depth without image assets:
-     layer 1 = faint radial gold "abyss" glow (top center)
-     layer 2 = inline SVG fractal-noise film grain (very low alpha)
-     layer 3 = the base near-black (background-color above) */
-  background-image:
-    radial-gradient(
-      60rem 40rem at 50% -8rem,
-      rgba(201, 162, 39, 0.1) 0%,
-      rgba(201, 162, 39, 0.04) 28%,
-      transparent 70%
-    ),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  /* Depth without image assets: base near-black + gold glow + film grain. */
+  background-image: var(--bg-glow), var(--bg-grain);
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed, fixed;
+}
+
+/* Reusable site backdrop — intro overlays apply this so their background is
+   identical to the page instead of flat black. */
+.site-bg {
+  background-color: var(--background);
+  background-image: var(--bg-glow), var(--bg-grain);
   background-repeat: no-repeat, repeat;
   background-attachment: fixed, fixed;
 }

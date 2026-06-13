@@ -6,7 +6,7 @@ export default function Footer() {
           <span className="text-base font-semibold tracking-tight text-foreground">
             ZENBU
           </span>
-          <span lang="ja" className="text-sm text-gold">
+          <span lang="ja" className="font-zen text-sm text-gold">
             全部
           </span>
         </div>
